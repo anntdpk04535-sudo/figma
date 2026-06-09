@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Liên hệ với IronCore Gym</title>
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+
+<nav class="navbar">
+  <a href="index.html" class="nav-logo">IRON<span>CORE</span></a>
+  <ul class="nav-links">
+    <li><a href="products.html">Sản phẩm</a></li>
+    <li><a href="about.html">Giới thiệu</a></li>
+    <li><a href="contact.html" style="color: var(--gold)">Liên hệ</a></li>
+    <li><a href="cart.html">🛒 Giỏ hàng</a></li>
+  </ul>
+  <div id="nav-user"></div>
+</nav>
+
+<section style="padding-top: 120px; min-height: 85vh;">
+  <div class="section-header" style="text-align: center;">
+    <div class="section-label" style="justify-content: center;">Kết nối ngay</div>
+    <h2 class="section-title">Thông Tin Liên Hệ</h2>
+  </div>
+
+  <div style="display: grid; grid-template-columns: 1fr 1.2fr; gap: 3rem; max-width: 1100px; margin: 0 auto; align-items: start;">
+    
+    <div style="background: var(--dark); padding: 2rem; border-radius: var(--radius); border: 1px solid var(--dark3);">
+      <h3 style="font-family: var(--font-h); font-size: 24px; color: var(--gold); margin-bottom: 1.5rem; text-transform: uppercase;">Trụ sở chính</h3>
+      
+      <div style="display: flex; flex-direction: column; gap: 1.25rem; font-size: 14px;">
+        <div>📍 <strong style="color:var(--white)">Địa chỉ:</strong><br><span style="color:var(--gray)">123 Nguyễn Trãi, Q.1, TP.Hồ Chí Minh</span></div>
+        <div>📞 <strong style="color:var(--white)">Hotline hỗ trợ:</strong><br><span style="color:var(--gray)">0909 123 456</span></div>
+        <div>✉️ <strong style="color:var(--white)">Hộp thư điện tử:</strong><br><span style="color:var(--gray)">info@ironcore.vn</span></div>
+        <div>⏰ <strong style="color:var(--white)">Khung giờ mở cửa:</strong><br><span style="color:var(--gray)">05:00 – 23:00 (Kể cả ngày lễ và Chủ Nhật)</span></div>
+      </div>
+    </div>
+
+    <div>
+      <form id="contact-form" style="background: var(--dark2); padding: 2rem; border-radius: var(--radius); border: 1px solid var(--dark3);" onsubmit="sendContact(event)">
+        <h3 style="font-family: var(--font-h); font-size: 24px; color: var(--gold); margin-bottom: 1rem; text-transform: uppercase;">Gửi tin nhắn cho chúng tôi</h3>
+        
+        <div class="form-field">
+          <label>Họ tên của bạn</label>
+          <input type="text" id="contact-name" placeholder="Nhập tên..." required/>
+        </div>
+
+        <div class="form-field">
+          <label>Địa chỉ Email</label>
+          <input type="email" id="contact-email" placeholder="example@gmail.com" required/>
+        </div>
+
+        <div class="form-field">
+          <label>Lời nhắn / Yêu cầu tư vấn</label>
+          <textarea id="contact-msg" rows="4" placeholder="Bạn muốn tìm hiểu gói tập nào..." required></textarea>
+        </div>
+
+        <button type="submit" class="btn-submit">Gửi thông tin liên hệ</button>
+      </form>
+    </div>
+
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer-bottom">
+    <span>© 2025 <span>IronCore Gym</span>. Bảo lưu mọi quyền.</span>
+  </div>
+</footer>
+
+<script src="js/data.js"></script>
+<script src="js/auth.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", renderAuthNav);
+
+  function sendContact(e) {
+    e.preventDefault();
+    const name = document.getElementById("contact-name").value;
+    alert(`Cảm ơn bạn ${name} đã gửi phản hồi!\nChúng tôi sẽ trả lời email của bạn trong thời gian sớm nhất.`);
+    document.getElementById("contact-form").reset();
+  }
+</script>
+</body>
+</html>

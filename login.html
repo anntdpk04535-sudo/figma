@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Đăng nhập – IronCore Gym</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <!-- NAVBAR -->
+    <nav class="navbar">
+      <a href="index.html" class="nav-logo">IRON<span>CORE</span></a>
+      <div id="nav-user"></div>
+    </nav>
+
+    <!-- FORM ĐĂNG NHẬP -->
+    <div class="auth-page">
+      <div class="auth-card">
+        <div class="auth-logo">IRON<span>CORE</span></div>
+        <h1 class="auth-title">Đăng nhập</h1>
+        <p class="auth-sub">Chào mừng bạn trở lại!</p>
+
+        <form id="login-form">
+          <div class="form-field">
+            <label for="login-email">Email</label>
+            <input
+              type="email"
+              id="login-email"
+              placeholder="ban@example.com"
+              autocomplete="email"
+            />
+          </div>
+
+          <div class="form-field">
+            <label for="login-password">Mật khẩu</label>
+            <input
+              type="password"
+              id="login-password"
+              placeholder="••••••••"
+              autocomplete="current-password"
+            />
+          </div>
+
+          <div id="login-error" class="error-msg"></div>
+
+          <button type="submit" class="btn-submit">Đăng nhập</button>
+        </form>
+
+        <div class="auth-footer">
+          Chưa có tài khoản? <a href="register.html">Đăng ký ngay</a>
+        </div>
+      </div>
+    </div>
+
+    <script src="js/data.js"></script>
+    <script src="js/auth.js"></script>
+    <script>
+      // Nếu đã đăng nhập thì chuyển thẳng
+      const u = getCurrentUser();
+      if (u)
+        window.location.href = u.role === "admin" ? "admin.html" : "index.html";
+
+      document
+        .getElementById("login-form")
+        .addEventListener("submit", handleLogin);
+    </script>
+  </body>
+</html>

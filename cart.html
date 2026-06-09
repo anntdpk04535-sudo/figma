@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Giỏ hàng của bạn – IronCore Gym</title>
+  <link rel="stylesheet" href="css/style.css"/>
+  <style>
+    .cart-table { width: 100%; border-collapse: collapse; margin-top: 1.5rem; }
+    .cart-table th { border-bottom: 1px solid var(--dark3); padding: 12px; text-align: left; color: var(--gray); font-size: 12px; text-transform: uppercase; }
+    .cart-table td { padding: 16px 12px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+    .qty-btn { background: var(--dark3); border: none; color: var(--white); width: 28px; height: 28px; cursor: pointer; font-weight: bold; border-radius: 4px; }
+    .qty-btn:hover { background: var(--gold); color: var(--black); }
+    .cart-summary { background: var(--dark); border: 1px solid var(--dark3); border-radius: var(--radius); padding: 1.5rem; margin-top: 2rem; max-width: 400px; margin-left: auto; }
+  </style>
+</head>
+<body>
+
+<nav class="navbar">
+  <a href="index.html" class="nav-logo">IRON<span>CORE</span></a>
+  <ul class="nav-links">
+    <li><a href="products.html">Sản phẩm</a></li>
+    <li><a href="about.html">Giới thiệu</a></li>
+    <li><a href="contact.html">Liên hệ</a></li>
+    <li><a href="cart.html" style="color: var(--gold)">🛒 Giỏ hàng</a></li>
+  </ul>
+  <div id="nav-user"></div>
+</nav>
+
+<section style="padding-top: 120px; min-height: 80vh;">
+  <div class="section-header">
+    <div class="section-label">Đơn hàng của bạn</div>
+    <h2 class="section-title">Giỏ Hàng</h2>
+  </div>
+
+  <div id="cart-container">
+    </div>
+</section>
+
+<footer class="footer">
+  <div class="footer-bottom">
+    <span>© 2025 <span>IronCore Gym</span>. Bảo lưu mọi quyền.</span>
+  </div>
+</footer>
+
+<script src="js/data.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/cart.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    renderAuthNav();
+    renderCart();
+  });
+
+  function renderCart() {
+    const user = getCurrentUser();
+    const container = document.getElementById("cart-container");
+
+    if (!user) {
+      container.innerHTML = `<p class="no-data">Vui lòng <a href="login.html" style="color:var(--gold); text-decoration:underline;">đăng nhập</a> để xem giỏ hàng.</p>`;
+      return;
+    }
+
+    const cart = getCart();
+    if (cart.length === 0) {
+      container.innerHTML = `
+        <p class="no-data">Giỏ hàng của bạn đang trống.</p>
+        <div style="text-align:center; margin-top:1rem;">
+          <a href="products.html" class="btn-primary">Mua sắm ngay</a>
+        </div>
+      `;
+      return;
+    }
+
+    let total = 0;
+    let tableRows = cart.map(item => {
+      const subtotal = item.price * item.quantity;
+      total += subtotal;
+      return `
+        <tr>
+          <td><img src="${item.image}" class="tbl-img" onerror="this.src='https://via.placeholder.com/60x40'"/></td>
+          <td>
+            <div style="font-weight:600; font-size:15px;">${item.name}</div>
+          </td>
+          <td>${formatPrice(item.price)}</td>
+          <td>
+            <div style="display:flex; align-items:center; gap:8px;">
+              <button class="qty-btn" onclick="updateQty(${item.productId}, -1)">-</button>
+              <span style="width:20px; text-align:center;">${item.quantity}</span>
+              <button class="qty-btn" onclick="updateQty(${item.productId}, 1)">+</button>
+            </div>
+          </td>
+          <td style="color:var(--gold); font-weight:700;">${formatPrice(subtotal)}</td>
+          <td>
+            <button class="btn-delete" style="padding:4px 10px;" onclick="removeItem(${item.productId})">Xóa</button>
+          </td>
+        </tr>
+      `;
+    }).join("");
+
+    container.innerHTML = `
+      <div style="overflow-x:auto;">
+        <table class="cart-table">
+          <thead>
+            <tr>
+              <th>Hình ảnh</th>
+              <th>Tên sản phẩm</th>
+              <th>Đơn giá</th>
+              <th>Số lượng</th>
+              <th>Tổng phụ</th>
+              <th>Hành động</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${tableRows}
+          </tbody>
+        </table>
+      </div>
+
+      <div class="cart-summary">
+        <h3 style="font-family:var(--font-h); text-transform:uppercase; margin-bottom:1rem; border-bottom:1px solid var(--dark3); padding-bottom:8px;">Tổng đơn hàng</h3>
+        <div style="display:flex; justify-content:space-between; margin-bottom:1.5rem; font-size:18px;">
+          <span>Thành tiền:</span>
+          <strong style="color:var(--gold); font-size:22px;">${formatPrice(total)}</strong>
+        </div>
+        <button class="btn-submit" onclick="checkout()">Tiến hành đăng ký thanh toán</button>
+      </div>
+    `;
+  }
+
+  function updateQty(productId, change) {
+    let cart = getCart();
+    const item = cart.find(i => i.productId === productId);
+    if (!item) return;
+
+    item.quantity += change;
+    if (item.quantity <= 0) {
+      cart = cart.filter(i => i.productId !== productId);
+    }
+    saveCart(cart);
+    renderCart();
+  }
+
+  function removeItem(productId) {
+    if (!confirm("Bạn muốn xóa sản phẩm này khỏi giỏ hàng?")) return;
+    let cart = getCart().filter(i => i.productId !== productId);
+    saveCart(cart);
+    renderCart();
+  }
+
+  function checkout() {
+    alert("Cảm ơn bạn đã lựa chọn dịch vụ!\nIronCore Gym đã ghi nhận đơn đặt hàng của bạn. Đội ngũ CSKH sẽ chủ động gọi điện tư vấn lộ trình và kích hoạt gói tập cho bạn trong vòng 15-30 phút tới.");
+    saveCart([]); // Xóa sạch giỏ hàng sau khi thanh toán thành công
+    renderCart();
+  }
+</script>
+</body>
+</html>

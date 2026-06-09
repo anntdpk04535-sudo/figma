@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>IronCore Gym – Trang chủ</title>
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+
+<!-- NAVBAR (Đã cập nhật liên kết sang các trang độc lập mới) -->
+<nav class="navbar">
+  <a href="index.html" class="nav-logo">IRON<span>CORE</span></a>
+  <ul class="nav-links">
+    <li><a href="products.html">Sản phẩm</a></li>
+    <li><a href="about.html">Giới thiệu</a></li>
+    <li><a href="contact.html">Liên hệ</a></li>
+    <li><a href="cart.html">🛒 Giỏ hàng</a></li>
+  </ul>
+  <div id="nav-user"></div>
+</nav>
+
+<!-- SLIDER -->
+<div class="slider-section">
+  <!-- Slide 1 -->
+  <div class="slide active">
+    <div class="slide-bg" style="background-image:url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=1400&q=80')"></div>
+    <div class="slide-content">
+      <div class="slide-tag">Bắt đầu hành trình</div>
+      <h1 class="slide-title">Rèn luyện<em>thể chất</em></h1>
+      <p class="slide-desc">Trang bị hiện đại, huấn luyện viên chuyên nghiệp — nơi bạn phá vỡ giới hạn bản thân mỗi ngày.</p>
+      <div class="slide-btns">
+        <!-- Chuyển hướng thẳng sang trang danh sách sản phẩm -->
+        <button class="btn-primary" onclick="window.location.href='products.html'">Xem gói tập</button>
+        <button class="btn-outline" onclick="window.location.href='about.html'">Tham quan</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide 2 -->
+  <div class="slide">
+    <div class="slide-bg" style="background-image:url('https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=1400&q=80')"></div>
+    <div class="slide-content">
+      <div class="slide-tag">Thiết bị hàng đầu</div>
+      <h1 class="slide-title">Thiết bị<em>hạng nhất</em></h1>
+      <p class="slide-desc">Hơn 200 máy tập thế hệ mới, phòng cardio rộng 500m², hồ bơi Olympic tiêu chuẩn.</p>
+      <div class="slide-btns">
+        <button class="btn-primary" onclick="window.location.href='products.html'">Khám phá</button>
+        <button class="btn-outline" onclick="window.location.href='about.html'">Xem ảnh</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide 3 -->
+  <div class="slide">
+    <div class="slide-bg" style="background-image:url('https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=1400&q=80')"></div>
+    <div class="slide-content">
+      <div class="slide-tag">Đội ngũ chuyên gia</div>
+      <h1 class="slide-title">Huấn luyện<em>viên giỏi</em></h1>
+      <p class="slide-desc">Đội ngũ HLV chứng chỉ quốc tế, sẵn sàng đồng hành cùng bạn đến mục tiêu.</p>
+      <div class="slide-btns">
+        <button class="btn-primary" onclick="window.location.href='contact.html'">Liên hệ ngay</button>
+        <button class="btn-outline" onclick="window.location.href='about.html'">Đặt lịch</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Controls -->
+  <div class="slider-controls">
+    <div class="dots">
+      <button class="dot active"></button>
+      <button class="dot"></button>
+      <button class="dot"></button>
+    </div>
+  </div>
+  <div class="slider-arrows">
+    <button class="arrow-btn" id="slider-prev">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+    </button>
+    <button class="arrow-btn" id="slider-next">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+    </button>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="stat"><div class="stat-num">5,000+</div><div class="stat-label">Thành viên</div></div>
+  <div class="stat"><div class="stat-num">15+</div><div class="stat-label">Năm hoạt động</div></div>
+  <div class="stat"><div class="stat-num">30+</div><div class="stat-label">Huấn luyện viên</div></div>
+  <div class="stat"><div class="stat-num">98%</div><div class="stat-label">Hài lòng</div></div>
+</div>
+
+<!-- SẢN PHẨM TRỰC QUAN (Hiển thị sản phẩm nổi bật trên trang chủ, click vào vẫn dẫn tới chi tiết) -->
+<section id="products" style="background:var(--dark)">
+  <div class="section-header">
+    <div class="section-label">Sản phẩm & Dịch vụ</div>
+    <h2 class="section-title">Chọn gói phù hợp</h2>
+    <p class="section-sub">Đa dạng gói tập và sản phẩm thiết kế riêng cho từng mục tiêu.</p>
+  </div>
+
+  <!-- Tìm kiếm -->
+  <div class="search-wrap">
+    <input type="text" id="search-input" placeholder="🔍  Tìm kiếm sản phẩm..."/>
+  </div>
+
+  <!-- Lọc danh mục -->
+  <div class="filter-bar" id="category-filter"></div>
+
+  <!-- Danh sách sản phẩm -->
+  <div class="product-grid" id="product-grid"></div>
+</section>
+
+<!-- GIỚI THIỆU TÓM TẮT -->
+<section id="about" style="background:var(--black)">
+  <div class="section-header">
+    <div class="section-label">Về chúng tôi</div>
+    <h2 class="section-title">IronCore Gym</h2>
+    <p class="section-sub">Hơn 15 năm đồng hành cùng hàng nghìn hội viên trên con đường chinh phục sức khỏe.</p>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1.5rem; margin-bottom: 2rem;">
+    <div style="border-top:2px solid rgba(232,160,32,.3);padding-top:1.25rem">
+      <div style="font-size:28px;margin-bottom:.75rem">🏋️</div>
+      <div style="font-family:var(--font-h);font-size:18px;font-weight:700;text-transform:uppercase;margin-bottom:.5rem">200+ Máy tập</div>
+      <div style="font-size:13px;color:var(--gray);line-height:1.65">Thiết bị thế hệ mới từ Life Fitness, Technogym — luôn được bảo dưỡng định kỳ.</div>
+    </div>
+    <div style="border-top:2px solid rgba(232,160,32,.3);padding-top:1.25rem">
+      <div style="font-size:28px;margin-bottom:.75rem">🏊</div>
+      <div style="font-family:var(--font-h);font-size:18px;font-weight:700;text-transform:uppercase;margin-bottom:.5rem">Hồ bơi Olympic</div>
+      <div style="font-size:13px;color:var(--gray);line-height:1.65">Hồ bơi tiêu chuẩn 50m, nước được lọc và xử lý tự động 24/7.</div>
+    </div>
+    <div style="border-top:2px solid rgba(232,160,32,.3);padding-top:1.25rem">
+      <div style="font-size:28px;margin-bottom:.75rem">🧘</div>
+      <div style="font-family:var(--font-h);font-size:18px;font-weight:700;text-transform:uppercase;margin-bottom:.5rem">Yoga & Thiền</div>
+      <div style="font-size:13px;color:var(--gray);line-height:1.65">Phòng yoga 200m² với ánh sáng tự nhiên và không gian yên tĩnh.</div>
+    </div>
+    <div style="border-top:2px solid rgba(232,160,32,.3);padding-top:1.25rem">
+      <div style="font-size:28px;margin-bottom:.75rem">📱</div>
+      <div style="font-family:var(--font-h);font-size:18px;font-weight:700;text-transform:uppercase;margin-bottom:.5rem">App theo dõi</div>
+      <div style="font-size:13px;color:var(--gray);line-height:1.65">Quản lý lịch tập, theo dõi tiến độ và đặt lịch PT ngay trên điện thoại.</div>
+    </div>
+  </div>
+  <div style="text-align: center;">
+    <a href="about.html" class="btn-outline" style="font-size: 13px;">Xem chi tiết câu chuyện câu lạc bộ →</a>
+  </div>
+</section>
+
+<!-- LIÊN HỆ TÓM TẮT -->
+<section id="contact" style="background:var(--dark)">
+  <div class="section-header">
+    <div class="section-label">Liên hệ</div>
+    <h2 class="section-title">Đến với chúng tôi</h2>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1.5rem;font-size:14px;color:var(--gray); margin-bottom: 2rem;">
+    <div>📍 <strong style="color:var(--white)">Địa chỉ</strong><br/>123 Nguyễn Trãi, Q.1, TP.HCM</div>
+    <div>📞 <strong style="color:var(--white)">Điện thoại</strong><br/>0909 123 456</div>
+    <div>✉️ <strong style="color:var(--white)">Email</strong><br/>info@ironcore.vn</div>
+    <div>⏰ <strong style="color:var(--white)">Giờ mở cửa</strong><br/>05:00 – 23:00 mỗi ngày</div>
+  </div>
+  <div style="text-align: center;">
+    <a href="contact.html" class="btn-primary" style="font-size: 13px;">Gửi tin nhắn góp ý / Đặt lịch tư vấn</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand">IRON<span>CORE</span></div>
+      <p class="footer-about">Phòng gym hàng đầu, nơi bạn rèn luyện thể chất và tinh thần.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Dịch vụ</h4>
+      <ul>
+        <li><a href="products.html">Gói tập cá nhân</a></li>
+        <li><a href="products.html">Gói tập nhóm</a></li>
+        <li><a href="products.html">Thực phẩm bổ sung</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Tài khoản</h4>
+      <ul>
+        <li><a href="login.html">Đăng nhập</a></li>
+        <li><a href="register.html">Đăng ký</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 <span>IronCore Gym</span>. Bảo lưu mọi quyền.</span>
+  </div>
+</footer>
+
+<script src="js/data.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/home.js"></script>
+</body>
+</html>

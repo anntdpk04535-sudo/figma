@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Quản trị – IronCore Gym</title>
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <a href="index.html" class="nav-logo">IRON<span>CORE</span></a>
+  <div id="nav-user"></div>
+</nav>
+
+<!-- ADMIN PAGE -->
+<div class="admin-page">
+  <div class="admin-wrap">
+
+    <!-- Header -->
+    <div class="admin-header">
+      <h1 class="admin-title">Trang <span>Quản Trị</span></h1>
+    </div>
+
+    <!-- Thống kê -->
+    <div class="admin-stats">
+      <div class="stat-card">
+        <div class="stat-num" id="stat-products">0</div>
+        <div class="stat-label">Sản phẩm</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num" id="stat-categories">0</div>
+        <div class="stat-label">Danh mục</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num" id="stat-users">0</div>
+        <div class="stat-label">Người dùng</div>
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="products"   onclick="switchTab('products')">Sản phẩm</button>
+      <button class="tab-btn"        data-tab="categories" onclick="switchTab('categories')">Danh mục</button>
+    </div>
+
+    <!-- TAB: SẢN PHẨM -->
+    <div class="tab-panel active" id="tab-products">
+      <div class="table-toolbar">
+        <input type="text" id="admin-search-product" placeholder="🔍 Tìm sản phẩm..." oninput="searchProduct()"/>
+        <button class="btn-add" onclick="openAddProduct()">+ Thêm sản phẩm</button>
+      </div>
+      <div style="overflow-x:auto">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Ảnh</th>
+              <th>Tên sản phẩm</th>
+              <th>Danh mục</th>
+              <th>Giá</th>
+              <th>Thao tác</th>
+            </tr>
+          </thead>
+          <tbody id="product-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- TAB: DANH MỤC -->
+    <div class="tab-panel" id="tab-categories">
+      <div class="table-toolbar">
+        <span style="font-size:14px;color:var(--gray)">Quản lý danh mục sản phẩm</span>
+        <button class="btn-add" onclick="openAddCategory()">+ Thêm danh mục</button>
+      </div>
+      <div style="overflow-x:auto">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Tên danh mục</th>
+              <th>Số sản phẩm</th>
+              <th>Thao tác</th>
+            </tr>
+          </thead>
+          <tbody id="category-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- MODAL: SẢN PHẨM -->
+<div class="modal-overlay" id="product-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="product-modal-title">Thêm sản phẩm</div>
+      <button class="modal-close" onclick="closeModal('product-modal')">✕</button>
+    </div>
+
+    <form id="product-form">
+      <div class="form-field">
+        <label>Tên sản phẩm <span style="color:var(--danger)">*</span></label>
+        <input type="text" id="product-name" placeholder="Nhập tên sản phẩm"/>
+      </div>
+      <div class="form-field">
+        <label>Danh mục <span style="color:var(--danger)">*</span></label>
+        <select id="product-categoryId"></select>
+      </div>
+      <div class="form-field">
+        <label>Giá (VNĐ) <span style="color:var(--danger)">*</span></label>
+        <input type="number" id="product-price" placeholder="VD: 600000" min="0"/>
+      </div>
+      <div class="form-field">
+        <label>URL ảnh</label>
+        <input type="text" id="product-image" placeholder="https://..."/>
+      </div>
+      <div class="form-field">
+        <label>Mô tả <span style="color:var(--danger)">*</span></label>
+        <textarea id="product-description" rows="3" placeholder="Mô tả sản phẩm..."></textarea>
+      </div>
+      <div class="form-field">
+        <label>Tính năng <span style="color:var(--gray);font-weight:400">(mỗi dòng một tính năng)</span></label>
+        <textarea id="product-features" rows="4" placeholder="Vào cửa 7 ngày/tuần&#10;Tủ đồ cá nhân&#10;1 buổi PT miễn phí"></textarea>
+      </div>
+
+      <div id="product-error" class="error-msg"></div>
+
+      <div style="display:flex;gap:.75rem;margin-top:1rem">
+        <button type="submit" class="btn-submit">Lưu</button>
+        <button type="button" class="btn-outline" style="padding:12px 24px;border-radius:8px;cursor:pointer"
+          onclick="closeModal('product-modal')">Hủy</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- MODAL: DANH MỤC -->
+<div class="modal-overlay" id="category-modal">
+  <div class="modal" style="max-width:400px">
+    <div class="modal-header">
+      <div class="modal-title" id="category-modal-title">Thêm danh mục</div>
+      <button class="modal-close" onclick="closeModal('category-modal')">✕</button>
+    </div>
+
+    <form id="category-form">
+      <div class="form-field">
+        <label>Tên danh mục <span style="color:var(--danger)">*</span></label>
+        <input type="text" id="category-name" placeholder="Nhập tên danh mục"/>
+      </div>
+
+      <div id="category-error" class="error-msg"></div>
+
+      <div style="display:flex;gap:.75rem;margin-top:1rem">
+        <button type="submit" class="btn-submit">Lưu</button>
+        <button type="button" class="btn-outline" style="padding:12px 24px;border-radius:8px;cursor:pointer"
+          onclick="closeModal('category-modal')">Hủy</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast"></div>
+
+<script src="js/data.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/admin.js"></script>
+</body>
+</html>

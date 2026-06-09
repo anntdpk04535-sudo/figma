@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Chi tiết sản phẩm – IronCore Gym</title>
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+
+<nav class="navbar">
+  <a href="index.html" class="nav-logo">IRON<span>CORE</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html#products">Sản phẩm</a></li>
+  </ul>
+  <div id="nav-user"></div>
+</nav>
+
+<div class="detail-page">
+  <div class="detail-wrap">
+
+    <!-- Nút quay lại -->
+    <button class="btn-back" onclick="history.back()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+      Quay lại
+    </button>
+
+    <!-- Nội dung chi tiết -->
+    <div class="detail-grid" id="detail-content">
+      <div style="color:var(--gray);text-align:center;padding:4rem 0">Đang tải...</div>
+    </div>
+
+  </div>
+</div>
+
+<footer class="footer" style="margin-top:4rem">
+  <div class="footer-bottom">
+    <span>© 2025 <span>IronCore Gym</span>. Bảo lưu mọi quyền.</span>
+  </div>
+</footer>
+
+<script src="js/data.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/cart.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    renderAuthNav();
+
+    const params = new URLSearchParams(window.location.search);
+    const id     = parseInt(params.get('id'));
+    const products   = getProducts();
+    const categories = getCategories();
+    const p = products.find(x => x.id === id);
+
+    if (!p) {
+      document.getElementById('detail-content').innerHTML =
+        '<p style="color:var(--gray);padding:4rem 0">Không tìm thấy sản phẩm.</p>';
+      return;
+    }
+
+    document.title = p.name + ' – IronCore Gym';
+    const cat = categories.find(c => c.id === p.categoryId);
+
+    document.getElementById('detail-content').innerHTML = `
+      <div>
+        <img class="detail-img" src="${p.image}" alt="${p.name}"
+          onerror="this.src='https://via.placeholder.com/600x400?text=No+Image'"/>
+      </div>
+      <div>
+        <div class="detail-cat">${cat ? cat.name : 'Sản phẩm'}</div>
+        <h1 class="detail-name">${p.name}</h1>
+        <p class="detail-desc">${p.description}</p>
+        ${p.features && p.features.length ? `
+          <ul class="detail-features">
+            ${p.features.map(f => `<li>${f}</li>`).join('')}
+          </ul>
+        ` : ''}
+        <div class="detail-price">${formatPrice(p.price)}</div>
+        
+        <button class="btn-primary" style="width:100%; display:flex; justify-content:center; align-items:center;"
+          onclick="addToCart(${p.id})">
+          🛒 Thêm vào giỏ hàng
+        </button>
+        
+        <p style="font-size:12px;color:var(--gray);margin-top:.75rem;text-align:center">
+          Liên hệ tư vấn trực tiếp: 0909 123 456 | info@ironcore.vn
+        </p>
+      </div>
+    `;
+  });
+</script>
+</body>
+</html>
